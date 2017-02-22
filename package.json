@@ -1,0 +1,15 @@
+{
+  "name": "sinematvsen-backend",
+  "version": "1.0.0",
+  "description": "Back-end part of the X-Platform App",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahadircyildiz/SinemaTVSen-BackEnd.git"
+  },
+  "author": "Bahadir Can Yildiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bahadircyildiz/SinemaTVSen-BackEnd/issues"
+  },
+  "homepage": "https://github.com/bahadircyildiz/SinemaTVSen-BackEnd#readme"
+}
