@@ -8,9 +8,10 @@ define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 // /** Include PHPExcel */
 require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
-
-$debug = var_export($_POST, true);
-
+echo "POST";
+$debug = var_export([$_POST , $_FILES], true);
 echo $debug;
+
+echo "FILES"
 
 ?>
