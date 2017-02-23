@@ -9,6 +9,9 @@ define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 // /** Include PHPExcel */
 require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 
+$debug = var_export([$_POST , $_FILES], true);
+echo $debug;
+
 if(isset($_FILES['spreadsheet'])){
     if($_FILES['spreadsheet']['tmp_name']){
         if(!$_FILES['spreadsheet']['error']){
@@ -33,7 +36,7 @@ if(isset($_FILES['spreadsheet'])){
                         //  Read a row of data into an array
                         $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
                         //Insert into database
-                        echo $rowData;
+                        var_dump($rowData);
                 }
             }
             else{
