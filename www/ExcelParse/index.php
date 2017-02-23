@@ -16,7 +16,7 @@ if(isset($_FILES['spreadsheet'])){
             echo "No Errors on Spreadsheet file";
             $inputFile = $_FILES['spreadsheet']['tmp_name'];
             $extension = strtoupper(pathinfo($inputFile, PATHINFO_EXTENSION));
-            echo "File extension " . $extension;
+            echo "File extension " . $extension . " Input File" . $inputFile;
             if($extension == 'XLSX' || $extension == 'ODS'){
                 //Read spreadsheeet workbook
                 try {
