@@ -9,17 +9,18 @@ define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 // /** Include PHPExcel */
 require_once dirname(__FILE__) . '/Classes/PHPExcel.php';
 
-$debug = var_export([$_POST , $_FILES], true);
-echo $debug;
-
 if(isset($_FILES['spreadsheet'])){
+    echo "Found Spreadsheet file";
     if($_FILES['spreadsheet']['tmp_name']){
         if(!$_FILES['spreadsheet']['error']){
+            echo "No Errors on Spreadsheet file";
             $inputFile = $_FILES['spreadsheet']['tmp_name'];
             $extension = strtoupper(pathinfo($inputFile, PATHINFO_EXTENSION));
+            echo "File extension " . $extension;
             if($extension == 'XLSX' || $extension == 'ODS'){
                 //Read spreadsheeet workbook
                 try {
+                    echo "Reading Spreadsheet file";
                     $inputFileType = PHPExcel_IOFactory::identify($inputFile);
                     $objReader = PHPExcel_IOFactory::createReader($inputFileType);
                     $objPHPExcel = $objReader->load($inputFile);
