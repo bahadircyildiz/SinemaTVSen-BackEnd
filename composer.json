@@ -1,0 +1,13 @@
+{
+    "name": "bahadircyildiz/sinematvsen-backend",
+    "authors": [
+        {
+            "name": "Bahadir Can Yildiz",
+            "email": "bahadircyildiz@yandex.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpexcel": "^1.8",
+        "cocur/slugify": "^2.4"
+    }
+}

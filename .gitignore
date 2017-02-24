@@ -1,3 +1,2 @@
-config.json
-www/config
-.ftpconfig
+/config
+/vendor/
