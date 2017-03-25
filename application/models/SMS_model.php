@@ -34,7 +34,7 @@ class SMS_model extends CI_Model{
     function request($endpoint, $params){
         try {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://websms.telsam.com.tr/xmlapi/sendsms"); 
+            curl_setopt($ch, CURLOPT_URL, $this->home.$endpoint); 
             curl_setopt($ch, CURLOPT_POST, 1); 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->convertParams($endpoint, $params));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -95,7 +95,7 @@ class SMS_model extends CI_Model{
             $receivers = array($gsm);
             $params = array($this->auth, $this->setMessageParam($text), $this->setReceiversParam($receivers));
             $result = $this->sendSMS($params);
-            var_dump($result);
+            // $result = $this->convertParams("sendsms", $params);
             
         } catch (Exception $e) {
             die($e->getMessage());
