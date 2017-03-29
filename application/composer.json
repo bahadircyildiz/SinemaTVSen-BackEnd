@@ -8,6 +8,7 @@
     ],
     "require": {
         "phpoffice/phpexcel": "^1.8",
-        "cocur/slugify": "^2.4"
+        "cocur/slugify": "^2.4",
+        "twbs/bootstrap": "^3.3"
     }
 }

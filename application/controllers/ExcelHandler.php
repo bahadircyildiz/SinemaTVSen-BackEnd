@@ -3,10 +3,10 @@
 
 class ExcelHandler extends CI_Controller{
     function index($params = null){
-        if($params == null) $this->load->view("options_view"); 
-        else $this->load->view("json_response", $params);
+        if($params == null) $this->load->view("options_view");
+        else $this->load->view("options_view", $params);
     }
-    
+
     function parse_excel(){
         $params = $_FILES['spreadsheet'];
         $this->load->library('PHPExcelHelper', $params);
@@ -46,37 +46,37 @@ class ExcelHandler extends CI_Controller{
                 } else throw new Exception($this->db->_error_message);
             }
             $response = array('InsertedUsers' => $userinfo, 'InsertedPayments' => $payments);
-            
+
         } catch (Exception $e ) {
             $response = $e->getMessage();
         }
-        
+
         // $users = $this->db->insert_batch('userinfo', $obj->response['content']['userinfo']);
         // // $payments = $this->db->insert_batch('payments', $obj->response['content']['payments']);
-        
+
         $this->index(array( 'data' => $response));
     }
-    
+
     function get_payments(){
         $param = $this->input->post('uye_no');
-        $data = $this->ExcelHandler_model->getPaymentsByUyeNo($param);   
+        $data = $this->ExcelHandler_model->getPaymentsByUyeNo($param);
         $this->index(array( 'data' => $data));
     }
-    
+
     function get_user_data(){
         $param = $this->input->post('uye_no');
-        $data = $this->ExcelHandler_model->getUserByUyeNo($param);   
+        $data = $this->ExcelHandler_model->getUserByUyeNo($param);
         $this->index(array( 'data' => $data));
     }
-    
+
     function get_debt(){
         $param = $this->input->post('uye_no');
-        $data = $this->ExcelHandler_model->getDebtsTillToday($param);   
+        $data = $this->ExcelHandler_model->getDebtsTillToday($param);
         $this->index(array( 'data' => $data));
     }
-    
-    
-    
+
+
+
 }
 
 

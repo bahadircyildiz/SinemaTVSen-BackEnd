@@ -13,6 +13,13 @@ class SMS_model extends CI_Model{
     
     public $home = "http://websms.telsam.com.tr/xmlapi/";
     
+    private $ga;
+
+    function __construct(){
+        $this->load->library('GoogleAuthenticator');
+        $this->load->library('session');
+    }
+
     function setMessageParam($text){
         return array("key" => "message", "value" => array(
                     array("key" => "originator", "value" => "IDEAMEDIA"),
@@ -42,7 +49,8 @@ class SMS_model extends CI_Model{
             if($response == false){
                 throw new Exception(curl_error($ch), curl_errno($ch));
             }
-            return $response;  
+            // $response = new SimpleXMLElement($response); 
+            return $response; 
         } catch (Exception $e) {
             trigger_error(sprintf(
                 'Curl failed with error #%d: %s',
@@ -62,18 +70,6 @@ class SMS_model extends CI_Model{
     }
     
     function arrayToXML($params, &$xml){
-        // foreach($params as $key => $value) {
-        //     if(is_array($value)) {
-        //         if(!is_numeric($key)){
-        //             $subnode = $xml->addChild($key);
-        //             $this->arrayToXML($value, $subnode);
-        //         } else {
-        //             $this->arrayToXML($value, $xml);
-        //         }
-        //     } else {
-        //         $xml->addChild($key,$value);
-        //     }
-        // }
         foreach($params as $p) {
             if(is_array($p['value'])) {
                 $subnode = $xml->addChild($p['key']);
@@ -91,17 +87,40 @@ class SMS_model extends CI_Model{
             // if(count($result) == 0){
             //     throw new Exception("Noone found");
             // }
-            $text = rand(100000, 999999);
+            $secret = $this->googleauthenticator->createSecret();
+            $oneCode = $this->googleauthenticator->getCode($secret);
+            $this->session->set_userdata('usersecret', $secret);
+            // $checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
+            // if ($checkResult) {
+            //     echo 'OK';
+            // } else {
+            //     echo 'FAILED';
+            // }
             $receivers = array($gsm);
-            $params = array($this->auth, $this->setMessageParam($text), $this->setReceiversParam($receivers));
+            $params = array($this->auth, $this->setMessageParam($oneCode), $this->setReceiversParam($receivers));
             $result = $this->sendSMS($params);
-            // $result = $this->convertParams("sendsms", $params);
             
         } catch (Exception $e) {
             die($e->getMessage());
         }
-        
         return $result;
+    }
+
+    function checkOneKey($key){
+        try{
+            if(!$this->session->has_userdata('usersecret')){
+                throw new Exception('Secret Not Sent');
+            }
+            $secret = $this->session->userdata('usersecret');
+            $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
+            if(!$checkResult) throw new Exception('Key Not Valid');
+            // $query = $this->db->get_where("userinfo", array("telefon" => $gsm));
+            // $result = $query->result();
+
+            return array('status' => true);
+        } catch (Exception $e){
+            die($e->getMessage());
+        }
     }
 
     

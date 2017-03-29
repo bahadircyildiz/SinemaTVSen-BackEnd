@@ -1,4 +1,5 @@
 <?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 use Cocur\Slugify\Slugify;
 
 define ("USERDATA_LAST_COLUMN", 'H');
