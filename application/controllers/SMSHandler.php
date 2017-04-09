@@ -16,7 +16,9 @@ class SMSHandler extends CI_Controller{
     
     function check_auth_key(){
         $onekey = $this->input->post('onekey');
-        $result = $this->SMS_model->checkOneKey($onekey);
+        $secret = $this->input->post('secret');
+        $gsm = $this->input->post('gsm');
+        $result = $this->SMS_model->checkOneKey($onekey, $secret,$gsm);
         $this->index(array('data' => $result));
     }
 }

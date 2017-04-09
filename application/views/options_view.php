@@ -28,7 +28,7 @@
             foreach ($data as $d_key => $d_value) {
                 $CI->table->set_caption($d_key);
                 $headings = array();
-                foreach($d_value[0] as $heading) $headings[] = $heading;
+                foreach($d_value[0] as $h_key => $heading) $headings[] = $h_key;
                 $CI->table->set_heading($headings);
                 echo $CI->table->generate($d_value);
             }
