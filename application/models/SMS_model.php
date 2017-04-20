@@ -48,10 +48,9 @@ class SMS_model extends CI_Model{
             if($response == false){
                 throw new Exception(curl_error($ch), curl_errno($ch));
             }
-            // $response = new SimpleXMLElement($response); 
-            return $response; 
+            $response = new SimpleXMLElement($response);
         } catch (Exception $e) {
-            $this->output->set_status_header($e->getCode(), $e->getMessage());
+            $response = array("status"=>"ERROR", "error_code"=> $e->getCode(), "error_description"=>$e->getMessage());
         }
         return $response;
     }
@@ -81,19 +80,23 @@ class SMS_model extends CI_Model{
         try {
             $query = $this->db->get_where("userinfo", array("telefon" => $gsm));
             $result = $query->result(); 
-            if(count($result) == 0){
-                 throw new Exception($this->db->_error_message(), $this->db->_error_number());
+            if(!$result){
+                $error = $this->db->error();
+                throw new Exception($error['message'], $error['code']);
             }
             $secret = $this->googleauthenticator->createSecret();
             $oneCode = $this->googleauthenticator->getCode($secret);
             $receivers = array($gsm);
             $params = array($this->auth, $this->setMessageParam($oneCode), $this->setReceiversParam($receivers));
             $result = $this->sendSMS($params);
-            $result = array("status"=> true, "secret"=> $secret);
+            if(array_key_exists('error_code', $result)){
+                throw new Exception($result['error_description'], $result['error_code']);
+            }
+            $result = array("secret"=>$secret);
+            return $result;
         } catch (Exception $e) {
-            $this->output->set_status_header($e->getCode(), $e->getMessage());
+            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: "İlgili kayıt bulunamadı.");
         }
-        return $result;
     }
 
     function checkOneKey($key, $secret, $gsm){
@@ -102,7 +105,7 @@ class SMS_model extends CI_Model{
                 throw new Exception('Secret Not Sent');
             }
             $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
-            if(!$checkResult) throw new Exception("Secret Key Not Valid", "500");
+            if(!$checkResult) throw new Exception("Secret Key Not Valid", 500);
             $query = $this->db->get_where("userinfo", array("telefon" => $gsm));
             $result = $query->result();
             if(count($result) == 0){
@@ -110,7 +113,7 @@ class SMS_model extends CI_Model{
             }
             return $result[0];
         } catch (Exception $e){
-            $this->output->set_status_header($e->getCode(), $e->getMessage());
+            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: "İlgili kayıt bulunamadı.");
         }
     }
 
