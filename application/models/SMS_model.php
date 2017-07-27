@@ -3,8 +3,8 @@
 class SMS_model extends CI_Model{
     
     private $auth = array("key" => "authentication", "value" => array(
-                        array("key" => "username", "value" => "ideamedia"),
-                        array("key" => "password", "value" => "ugur123")
+                        array("key" => "username", "value" => "sinema"),
+                        array("key" => "password", "value" => "SinemaTv2015")
                     ));
 
     public $paramHeader = array(
@@ -21,7 +21,7 @@ class SMS_model extends CI_Model{
 
     function setMessageParam($text){
         return array("key" => "message", "value" => array(
-                    array("key" => "originator", "value" => "IDEAMEDIA"),
+                    array("key" => "originator", "value" => "SinemaTvSen"),
                     array("key" => "text", "value" => $text),
                     array("key" => "unicode", "value" => ""),
                     array("key" => "international", "value" => ""),
@@ -102,7 +102,7 @@ class SMS_model extends CI_Model{
     function checkOneKey($key, $secret, $gsm){
         try{
             if($secret == null){
-                throw new Exception('Secret Not Sent');
+                throw new Exception('Secret Not Found');
             }
             $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
             if(!$checkResult) throw new Exception("Secret Key Not Valid", 500);
