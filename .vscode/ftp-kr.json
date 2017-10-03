@@ -1,0 +1,21 @@
+{
+    "remotePath": "/public_html/sinematvsen-backend",
+    "host": "31.207.86.3",
+    "username": "sinematvsendikas",
+    "password": "sin123ema456",
+    "port": 21,
+    "secure": false,
+    "protocol": "ftp",
+    "uploadOnSave": true,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "passphrase": null,
+    "autoUpload": true,
+    "autoDelete": true,
+    "ignore": [
+        "\\.vscode",
+        "\\.git",
+        "\\.DS_Store"
+    ]
+}

@@ -17,7 +17,7 @@ class ExcelHandler extends CI_Controller{
     function get_payments(){
         $param = $this->input->post('uye_no');
         $data = $this->ExcelHandler_model->getPaymentsByUyeNo($param);
-        $this->index(array( 'data' => $data));
+        $this->index(array('data' => $data));
     }
 
     function get_user_data(){

@@ -39,6 +39,10 @@ class WPIntegration {
         return wp_login_url()."?redirect_to=$redirect";
     }
     
+    public function wp_redirect($link){
+        return wp_redirect($link);
+    }
+
     public function logoutLink()
     {
         $CI = & get_instance();

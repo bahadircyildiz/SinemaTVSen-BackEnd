@@ -10,7 +10,6 @@ class SMSHandler extends CI_Controller{
         $this->load->view("json_response", $params);
     }
     
-    
     function send_auth_key(){
         $gsm = $this->input->post('gsm');
         $result = $this->SMS_model->sendAuthKey($gsm);
