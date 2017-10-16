@@ -1,9 +1,10 @@
 <?php
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class UserHandler extends CI_Controller{
     
     function index($params = null){
-        if($params == null) $this->load->view("options_view"); 
+        if($params == null) $this->load->view("json_response"); 
         else $this->load->view("json_response", $params);
     }
     

@@ -729,7 +729,7 @@ class CI_Jquery extends CI_Javascript {
 	protected function _updater($container = 'this', $controller = '', $options = '')
 	{
 		$container = $this->_prep_element($container);
-		$controller = (strpos('://', $controller) === FALSE) ? $controller : $this->CI->config->site_url($controller);
+		$controller = (strpos('://', $controller) === FALSE) ? $controller : $this->CI->config->ci_site_url($controller);
 
 		// ajaxStart and ajaxStop are better choices here... but this is a stop gap
 		if ($this->CI->config->item('javascript_ajax_img') === '')

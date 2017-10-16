@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+define ("AIDAT_TABLO_ISMI", 'aidat');
+define ("UYE_TABLO_ISMI", 'uye_bilgileri');
+
 class ExcelHandler_model extends CI_Model{
         public $month_grid =  array( 'Ocak', 
                                 'Şubat', 
@@ -63,7 +67,7 @@ class ExcelHandler_model extends CI_Model{
     }
     
     function add_payment_list($data){
-        $query = $this->db->insert_batch('payments', $data);
+        $query = $this->db->insert_batch(AIDAT_TABLO_ISMI, $data);
         return $query;
     }
     
@@ -71,9 +75,9 @@ class ExcelHandler_model extends CI_Model{
         $response = array('status' => 200, 'message' => 'OK');
         try {
             if($uye_no == null){
-                $query = $this->db->get('payments');
+                $query = $this->db->get(AIDAT_TABLO_ISMI);
             } else{
-                $query = $this->db->get_where('payments', array('uye_no' => $uye_no));   
+                $query = $this->db->get_where(AIDAT_TABLO_ISMI, array('uye_no' => $uye_no));   
             }
             $result = $query->result(); $ret = array();
             if ($result == null) throw new Exception($this->db->_error_message);
@@ -93,9 +97,9 @@ class ExcelHandler_model extends CI_Model{
         $response = array();
         try {
             if($uye_no == null){
-                $query = $this->db->get('userinfo');
+                $query = $this->db->get(UYE_TABLO_ISMI);
             } else{
-                $query = $this->db->get_where('userinfo', array('uye_no' => $uye_no));   
+                $query = $this->db->get_where(UYE_TABLO_ISMI, array('uye_no' => $uye_no));   
             }
             $result = $query->result(); $ret = array();
             if ($result == null) throw new Exception($this->db->_error_message);
@@ -125,7 +129,7 @@ class ExcelHandler_model extends CI_Model{
         try {
             $sql = $this->db
                     ->select('*')
-                    ->from('payments')
+                    ->from(AIDAT_TABLO_ISMI)
                     ->where(array('aidat_tarihi <=' => date('Y-m-d h:i:s'), 'odendigi_tarih' => null, 'uye_no' => $uye_no))
                     ->order_by('aidat_tarihi ASC')
                     ->get();
@@ -149,50 +153,88 @@ class ExcelHandler_model extends CI_Model{
     function parse_excel($params){
         $this->load->library('PHPExcelHelper', $params);
         $obj = $this->phpexcelhelper->objectify();
+        var_dump($obj);
         $userinfo = array(); $payments = array();
         // $this->ExcelHandler_model->add_alias_list($query);
-        $cnt = array('userinfo' => 0, 'payments' => 0);
         try {
-            foreach ($obj->response['userinfo'] as $e) {
-                $sql = $this->db->insert_string('userinfo', $e) . ' ON DUPLICATE KEY UPDATE uye_no=uye_no, odeme_tipi=VALUES(odeme_tipi), birim=VALUES(birim), adi=VALUES(adi), soyadi=VALUES(soyadi), telefon=VALUES(telefon), email=VALUES(email), tutar=VALUES(tutar)';
-                $result = $this->db->query($sql);
-                if($result) {
-                    // array_push($userinfo, $this->db->insert_id() + $cnt['userinfo']);
-                    array_push($userinfo, $e);
-                    $cnt['userinfo']++;
-                } else throw new Exception($this->db->_error_message); 
-            }
-            foreach ($obj->response['payments'] as $e) {
-                $sql = $this->db->insert_string('payments', $e) . ' ON DUPLICATE KEY UPDATE id=id, uye_no=uye_no, odeme_tipi=VALUES(odeme_tipi), odendigi_tarih=VALUES(odendigi_tarih)';
-                $result = $this->db->query($sql);
-                if($result) {
-                    // array_push($payments, $this->db->insert_id() + $cnt['payments']);
-                    if(array_key_exists("aidat_tarihi", $e)){
-                        $aidat_tarihi = $this->ExcelHandler_model->stringDateParser($e['aidat_tarihi']);
-                        unset($e['aidat_tarihi']);
-                        $e['aidat_yili'] = $aidat_tarihi['year'];
-                        $e['aidat_ayi'] = $aidat_tarihi['month'];
+            foreach ($obj as $type => $content) {
+                foreach ($content as $tableName => $data) {
+                    if($type == "aidat"){
+                        $tableName = AIDAT_TABLO_ISMI;
                     }
-                    if(array_key_exists("odendigi_tarih", $e)){
-                        $odendigi_tarih = $this->ExcelHandler_model->stringDateParser($e['odendigi_tarih']);
-                        unset($e['odendigi_tarih']);
-                        $e['odendigi_ay'] = $odendigi_tarih['month'];
+                    if($this->db->table_exists($tableName)){
+                        $this->db->empty_table($tableName);
                     }
-                    array_push($payments, $e);
-                    $cnt['payments']++;
-                } else throw new Exception($this->db->_error_message);
-            }
-            $response = array('InsertedUsers' => $userinfo, 'InsertedPayments' => $payments);
+                    foreach ($data as &$d) {
+                        $result = $this->db->insert($tableName, $d);
+                        if($result){
+                            if($type == "aidat"){
+                                if(array_key_exists("aidat_tarihi", $d)){
+                                    $aidat_tarihi = $this->ExcelHandler_model->stringDateParser($d['aidat_tarihi']);
+                                    unset($d['aidat_tarihi']);
+                                    $d['aidat_yili'] = $aidat_tarihi['year'];
+                                    $d['aidat_ayi'] = $aidat_tarihi['month'];
+                                }
+                                if(array_key_exists("odendigi_tarih", $d)){
+                                    $odendigi_tarih = $this->ExcelHandler_model->stringDateParser($d['odendigi_tarih']);
+                                    unset($d['odendigi_tarih']);
+                                    $d['odendigi_ay'] = $odendigi_tarih['month'];
+                                }
+                            }
+                        } else {
+                            throw new Exception($this->db->_error_message);
+                        }
+                    }
 
-        } catch (Exception $e ) {
+                }
+            }
+            $response = $obj["content"];
+        } 
+        catch (Exception $e ) {
             $response = $e->getMessage();
         }
-
         return $response;
+    }
+        //     foreach ($obj->response['userinfo'] as $e) {
+        //         $sql = $this->db->insert_string('userinfo', $e) . ' ON DUPLICATE KEY UPDATE uye_no=uye_no, odeme_tipi=VALUES(odeme_tipi), birim=VALUES(birim), adi=VALUES(adi), soyadi=VALUES(soyadi), telefon=VALUES(telefon), email=VALUES(email), tutar=VALUES(tutar)';
+        //         $result = $this->db->query($sql);
+        //         if($result) {
+        //             // array_push($userinfo, $this->db->insert_id() + $cnt['userinfo']);
+        //             array_push($userinfo, $e);
+        //             $cnt['userinfo']++;
+        //         } else throw new Exception($this->db->_error_message); 
+        //     }
+        //     foreach ($obj->response['payments'] as $e) {
+        //         $sql = $this->db->insert_string('payments', $e) . ' ON DUPLICATE KEY UPDATE id=id, uye_no=uye_no, odeme_tipi=VALUES(odeme_tipi), odendigi_tarih=VALUES(odendigi_tarih)';
+        //         $result = $this->db->query($sql);
+        //         if($result) {
+        //             // array_push($payments, $this->db->insert_id() + $cnt['payments']);
+        //             if(array_key_exists("aidat_tarihi", $e)){
+        //                 $aidat_tarihi = $this->ExcelHandler_model->stringDateParser($e['aidat_tarihi']);
+        //                 unset($e['aidat_tarihi']);
+        //                 $e['aidat_yili'] = $aidat_tarihi['year'];
+        //                 $e['aidat_ayi'] = $aidat_tarihi['month'];
+        //             }
+        //             if(array_key_exists("odendigi_tarih", $e)){
+        //                 $odendigi_tarih = $this->ExcelHandler_model->stringDateParser($e['odendigi_tarih']);
+        //                 unset($e['odendigi_tarih']);
+        //                 $e['odendigi_ay'] = $odendigi_tarih['month'];
+        //             }
+        //             array_push($payments, $e);
+        //             $cnt['payments']++;
+        //         } else throw new Exception($this->db->_error_message);
+        //     }
+        //     $response = array('InsertedUsers' => $userinfo, 'InsertedPayments' => $payments);
+
+        // } catch (Exception $e ) {
+        //     $response = $e->getMessage();
+        // }
+
+        // return $response;
 
         // $users = $this->db->insert_batch('userinfo', $obj->response['content']['userinfo']);
         // // $payments = $this->db->insert_batch('payments', $obj->response['content']['payments']);
-    }
+//     }
     
 }
 

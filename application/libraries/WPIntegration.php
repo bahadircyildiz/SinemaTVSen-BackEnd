@@ -18,9 +18,15 @@ class WPIntegration {
         //$posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_version, $id, $comment, $user_ID;
     
         require_once '../wp-load.php';
+
     }
     public function isLoggedIn()
     {
+        // $this->load->helper("cookie");
+        // $cookie_name = "wordpress_logged_in_d94104ef73bac9a1643114af44c1e033";
+        // $current_user = get_cookie($cookie_name);
+        // var_dump($current_user);
+        // return $current_user != null;
         return is_user_logged_in();
     }
     public function isSuperAdmin()
@@ -36,11 +42,11 @@ class WPIntegration {
         $CI->load->helper('ci_url');
         $redirect = current_url();
     
-        return wp_login_url()."?redirect_to=$redirect";
+        return wp_login_url()."?redirect_to=/backend/";
     }
     
     public function wp_redirect($link){
-        return wp_redirect($link);
+        return wp_safe_redirect($link);
     }
 
     public function logoutLink()

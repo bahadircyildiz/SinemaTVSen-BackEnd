@@ -196,7 +196,7 @@ if ( ! function_exists('img'))
 			{
 				if ($index_page === TRUE)
 				{
-					$img .= ' src="'.get_instance()->config->site_url($v).'"';
+					$img .= ' src="'.get_instance()->config->ci_site_url($v).'"';
 				}
 				else
 				{
@@ -288,7 +288,7 @@ if ( ! function_exists('link_tag'))
 				{
 					if ($index_page === TRUE)
 					{
-						$link .= 'href="'.$CI->config->site_url($v).'" ';
+						$link .= 'href="'.$CI->config->ci_site_url($v).'" ';
 					}
 					else
 					{
@@ -309,7 +309,7 @@ if ( ! function_exists('link_tag'))
 			}
 			elseif ($index_page === TRUE)
 			{
-				$link .= 'href="'.$CI->config->site_url($href).'" ';
+				$link .= 'href="'.$CI->config->ci_site_url($href).'" ';
 			}
 			else
 			{

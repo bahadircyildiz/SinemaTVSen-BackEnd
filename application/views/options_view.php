@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Parse Excel</h2>
-        <?php echo form_open_multipart('ExcelHandler/parse_excel');?>
+        <?php echo form_open_multipart('MainMenu/parse_excel');?>
         <div class="form-group">
             <label for="spreadsheet">Load Excel</label>
             <input type="file" class="form-control-file" name="spreadsheet" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
@@ -26,12 +26,15 @@
                 'table_open' => '<table border="1" cellpadding="2" cellspacing="1" class="table">'
             );
             $CI->table->set_template($template);
-            foreach ($data as $d_key => $d_value) {
-                $CI->table->set_caption($d_key);
-                $headings = array();
-                foreach($d_value[0] as $h_key => $heading) $headings[] = $h_key;
-                $CI->table->set_heading($headings);
-                echo $CI->table->generate($d_value);
+            foreach ($data as $type => $content) {
+                $CI->table->set_caption($type);
+                foreach ($content as $tableName => $tableData) {
+                    $CI->table->set_caption($tableName);
+                    $headings = array();
+                    foreach($tableData[0] as $h_key => $heading) $headings[] = $h_key;
+                    $CI->table->set_heading($headings);
+                    echo $CI->table->generate($tableData);
+                }
             }
         }
         ?>

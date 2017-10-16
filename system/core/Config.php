@@ -239,7 +239,7 @@ class CI_Config {
 	 * @param	string	$protocol
 	 * @return	string
 	 */
-	public function site_url($uri = '', $protocol = NULL)
+	public function ci_site_url($uri = '', $protocol = NULL)
 	{
 		$base_url = $this->slash_item('base_url');
 
@@ -327,7 +327,7 @@ class CI_Config {
 	/**
 	 * Build URI string
 	 *
-	 * @used-by	CI_Config::site_url()
+	 * @used-by	CI_Config::ci_site_url()
 	 * @used-by	CI_Config::base_url()
 	 *
 	 * @param	string|string[]	$uri	URI string or an array of segments
