@@ -16,7 +16,105 @@
                 {
                     "type": "-",
                     "name": "FETCH_HEAD",
-                    "size": 0
+                    "size": 115
+                },
+                {
+                    "type": "-",
+                    "name": "index",
+                    "size": 186232
+                },
+                {
+                    "type": "-",
+                    "name": "COMMIT_EDITMSG",
+                    "size": 48
+                },
+                {
+                    "type": "d",
+                    "name": "logs",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "HEAD",
+                            "size": 1804
+                        },
+                        {
+                            "type": "d",
+                            "name": "refs",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "d",
+                                    "name": "heads",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "-",
+                                            "name": "master",
+                                            "size": 1804
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "d",
+                                    "name": "remotes",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "d",
+                                            "name": "origin",
+                                            "size": 0,
+                                            "files": [
+                                                {
+                                                    "type": "-",
+                                                    "name": "master",
+                                                    "size": 1131
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "refs",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "d",
+                            "name": "heads",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "-",
+                                    "name": "master",
+                                    "size": 41
+                                }
+                            ]
+                        },
+                        {
+                            "type": "d",
+                            "name": "remotes",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "d",
+                                    "name": "origin",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "-",
+                                            "name": "master",
+                                            "size": 41
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -49,25 +147,37 @@
             "files": [
                 {
                     "type": "d",
-                    "name": "views",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "options_view.php",
-                            "size": 1894
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
                     "name": "libraries",
                     "size": 0,
                     "files": [
                         {
                             "type": "-",
                             "name": "PHPExcelHelper.php",
-                            "size": 9666
+                            "size": 9426
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "models",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "ExcelHandler_model.php",
+                            "size": 10634
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "views",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "options_view.php",
+                            "size": 2052
                         }
                     ]
                 }

@@ -53,11 +53,11 @@ class PHPExcelHelper{
             $this->objPHPExcel = $objReader->load($inputFile);
             $sheetNames = $this->objPHPExcel->getSheetNames();
             foreach($sheetNames as $sheetIndex=>$sheetName){
-                if(substr($sheetName, 0, 6) == "<tablo>"){
+                if(substr($sheetName, 0, 6) == "tablo_"){
                     $sheetName = $this->slugger->slugify(substr($sheetName, 6));
                     $this->sheetObj["tablo"][$sheetIndex] = $sheetName;
                     $this->response["content"]["tablo"][$sheetName] = array();
-                } else if (substr($sheetName, 0, 6) == "<aidat>"){
+                } else if (substr($sheetName, 0, 6) == "aidat_"){
                     $sheetName = $this->slugger->slugify(substr($sheetName, 6));
                     $this->sheetObj["aidat"][$sheetIndex] = $sheetName;
                     $this->response["content"]["aidat"][$sheetName] = array();
@@ -128,12 +128,15 @@ class PHPExcelHelper{
                             for ($attrow = 0; $attrow < count($rawRowData); $attrow++){
                                 $rowData[$attributes[$attrow]] = $rawRowData[$attrow];
                             }
+                            $this->response["content"][$type][$sheetName][] = $rowData;
                             break;
                         case 'aidat':
-                            $rowData = $this->getPaymentAnnually($row, $sheetName); 
+                            $rowData = $this->getPaymentAnnually($row, $sheetName);
+                            foreach ($rowData as $rd) {
+                                $this->response["content"][$type][$sheetName][] = $rd;
+                            }
                             break;
                     }
-                    $this->response["content"][$type][$sheetName][] = $rowData;
                 }
             }
         }
@@ -141,31 +144,43 @@ class PHPExcelHelper{
     }
     
     function getPaymentAnnually($row, $year){
-        extract($this->response["headers"]["aidat"][$year], EXTR_PREFIX_SAME, "wddx");
-        $paymentArray = array(); 
-        // $fyfc = FIRST_YEAR_FIRST_COLUMN;
-        // $year = FIRST_YEAR;
+        extract($this->response["headers"]["aidat"][$year], EXTR_PREFIX_SAME, "wddx"); 
+        $paymentArray = array();
+        $RowData = $sheet->rangeToArray(USERID_COLUMN. $row . ':' . COLOR_LAST_COLUMN . $row, NULL, TRUE, FALSE)[0];
         
-        $YearMonths = $sheet->rangeToArray(COLOR_FIRST_COLUMN. '1' . ':' . COLOR_LAST_COLUMN . '1', NULL, TRUE, FALSE)[0];
-        $YearData = $sheet->rangeToArray(COLOR_FIRST_COLUMN. $row . ':' . COLOR_LAST_COLUMN . $row, NULL, TRUE, FALSE)[0];
         // var_dump($colorArray);
         // echo "Looking for columns between " . $start_col . $row . " and " . $end_col . $row . PHP_EOL;
-        for ($column_counter = 0, $column = COLOR_FIRST_COLUMN; $column_counter < count($YearData); $column_counter++, $column++){
+        for($cnt = 1, $column = COLOR_FIRST_COLUMN; $column <= COLOR_LAST_COLUMN; $column++, $cnt++){
             $targetColor = $sheet->getStyle($column.$row)->getFill()->getStartColor()->getRGB();
-            if($YearMonths[$column_counter] != null){
-                $tempP = array( 'uye_no' => $row[0], 
-                                'aidat_tarihi'=> $this->dateParser($month_grid[$YearMonths[$column_counter]], $year),
-                                'odeme_tipi'=> $YearData[$column_counter]);
-                // var_dump($targetColor . "   " . $start_col);
-                if($tempP['odeme_tipi'] == '1'){
-                    $tempP['odendigi_tarih'] = $this->dateParser($month_grid[$YearMonths[$column_counter]], $year); 
-                }
-                else if(array_key_exists($targetColor, $colorArray)) {
-                    $tempP['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
-                }
-                array_push($paymentArray, $tempP);   
+            $uye_no = $RowData[0];
+            $monthlyPayment = array( 'uye_no' => $uye_no, 
+                            'aidat_tarihi'=> $this->dateParser($cnt, $year),
+                            'odeme_tipi'=> $RowData[$cnt]);
+            if($targetColor == "000000"){
+                $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year); 
+            } else if(array_key_exists($targetColor, $colorArray)) {
+                $monthlyPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
             }
-        }          
+            $paymentArray[] = $monthlyPayment;
+        };
+        // for ($column_counter = 0, $column = COLOR_FIRST_COLUMN; $column_counter < count($YearData); $column_counter++, $column++){
+        //     $targetColor = $sheet->getStyle($column.$row)->getFill()->getStartColor()->getRGB();
+        //     if($YearMonths[$column_counter] != null){
+        //         $uye_no = $YearData[0];
+        //         $annualPayment = array( 'uye_no' => $uye_no, 
+        //                         'aidat_tarihi'=> $this->dateParser($month_grid[$YearMonths[$column_counter]], $year),
+        //                         'odeme_tipi'=> $YearData[$column_counter]);
+        //         // var_dump($targetColor . "   " . $start_col);
+                
+        //         if($targetColor == "000000"){
+        //             $annualPayment['odendigi_tarih'] = $this->dateParser($month_grid[$YearMonths[$column_counter]], $year); 
+        //         }
+        //         else if(array_key_exists($targetColor, $colorArray)) {
+        //             $annualPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
+        //         }
+        //         var_dump($targetColor);
+        //     }
+        // }          
         return $paymentArray;
     }
     

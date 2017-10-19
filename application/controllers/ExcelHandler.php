@@ -20,6 +20,12 @@ class ExcelHandler extends CI_Controller{
         $this->index(array( 'data' => $data));
     }
 
+    function object_excel()
+    {
+        $params = $_FILES['spreadsheet'];
+        $data = $this->ExcelHandler_model->object_excel($params);
+        $this->index(array("data" => $data));
+    }
 
 
 }

@@ -150,11 +150,16 @@ class ExcelHandler_model extends CI_Model{
         return $response;
     }
 
+    function object_excel($params){
+        $this->load->library('PHPExcelHelper', $params);
+        $obj = $this->phpexcelhelper->objectify();
+        return $obj;
+    }
+
+    
     function parse_excel($params){
         $this->load->library('PHPExcelHelper', $params);
         $obj = $this->phpexcelhelper->objectify();
-        var_dump($obj);
-        $userinfo = array(); $payments = array();
         // $this->ExcelHandler_model->add_alias_list($query);
         try {
             foreach ($obj as $type => $content) {
@@ -166,9 +171,13 @@ class ExcelHandler_model extends CI_Model{
                         $this->db->empty_table($tableName);
                     }
                     foreach ($data as &$d) {
+                        if($tableName == UYE_TABLO_ISMI){
+                            $d["telefon"] = is_numeric($d["telefon"]) ? $d['telefon'] : null;
+                            $d["bagis"] = is_numeric($d["bagis"]) ? $d['bagis'] : null;
+                        }
                         $result = $this->db->insert($tableName, $d);
                         if($result){
-                            if($type == "aidat"){
+                            if($type == AIDAT_TABLO_ISMI){
                                 if(array_key_exists("aidat_tarihi", $d)){
                                     $aidat_tarihi = $this->ExcelHandler_model->stringDateParser($d['aidat_tarihi']);
                                     unset($d['aidat_tarihi']);
