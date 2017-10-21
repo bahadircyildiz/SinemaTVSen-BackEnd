@@ -5,6 +5,7 @@ use Cocur\Slugify\Slugify;
 define ("USERID_COLUMN", 'A');
 define ("COLOR_FIRST_COLUMN", 'B');
 define ("COLOR_LAST_COLUMN", 'M');
+define ("UYE_TABLO_ISMI", "uye_bilgileri");
 
 class PHPExcelHelper{
     
@@ -118,8 +119,8 @@ class PHPExcelHelper{
     
     function objectify(){
         foreach ($this->sheetObj as $type => $content) {
-            foreach ($content as $sheetIndex => $sheetName) {
-                extract($this->response["headers"][$type][$sheetName], EXTR_PREFIX_SAME, "wddx");
+            foreach ($content as $tableName) {
+                extract($this->response["headers"][$type][$tableName], EXTR_PREFIX_SAME, "wddx");
                 for ($row = 2; $row <= $highestRow; $row++){
                     $rowData = array();
                     switch ($type) {
@@ -128,19 +129,24 @@ class PHPExcelHelper{
                             for ($attrow = 0; $attrow < count($rawRowData); $attrow++){
                                 $rowData[$attributes[$attrow]] = $rawRowData[$attrow];
                             }
-                            $this->response["content"][$type][$sheetName][] = $rowData;
+                            if($tableName == UYE_TABLO_ISMI){
+                                $rowData["telefon"] = is_numeric($rowData["telefon"]) ? $rowData['telefon'] : null;
+                                $rowData["bagis"] = is_numeric($rowData["bagis"]) ? $rowData['bagis'] : null;
+                                // var_dump($rowData["telefon"], is_numeric($rowData["telefon"]));
+                            }
+                            $this->response["content"][$type][$tableName][] = $rowData;
                             break;
                         case 'aidat':
-                            $rowData = $this->getPaymentAnnually($row, $sheetName);
+                            $rowData = $this->getPaymentAnnually($row, $tableName);
                             foreach ($rowData as $rd) {
-                                $this->response["content"][$type][$sheetName][] = $rd;
+                                $this->response["content"][$type][$tableName][] = $rd;
                             }
                             break;
                     }
                 }
             }
         }
-        return $this->response["content"];
+        return $this->response;
     }
     
     function getPaymentAnnually($row, $year){
@@ -160,6 +166,8 @@ class PHPExcelHelper{
                 $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year); 
             } else if(array_key_exists($targetColor, $colorArray)) {
                 $monthlyPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
+            } else{
+                $monthlyPayment['odendigi_tarih'] = null;
             }
             $paymentArray[] = $monthlyPayment;
         };
