@@ -1,5 +1,8 @@
 <?php
 
+// define ("AIDAT_TABLO_ISMI", 'aidat');
+// define ("UYE_TABLO_ISMI", 'uye_bilgileri');
+
 class SMS_model extends CI_Model{
     
     private $auth = array("key" => "authentication", "value" => array(
@@ -78,7 +81,7 @@ class SMS_model extends CI_Model{
     
     function sendAuthKey($gsm){
         try {
-            $query = $this->db->get_where("userinfo", array("telefon" => $gsm));
+            $query = $this->db->get_where(UYE_TABLO_ISMI, array("telefon" => $gsm));
             $result = $query->result(); 
             if(!$result){
                 $error = $this->db->error();
@@ -99,7 +102,8 @@ class SMS_model extends CI_Model{
             $result = array("secret"=>$secret);
             return $result;
         } catch (Exception $e) {
-            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: "İlgili kayıt bulunamadı.");
+            $this->output->set_status_header($e->getCode()!= 0 ?: 404, 
+                                            $e->getMessage()!= "" ?: mb_convert_encoding("İlgili kayıt bulunamadı.", "HTML-ENTITIES", "UTF-8"));
         }
     }
 
@@ -114,14 +118,14 @@ class SMS_model extends CI_Model{
                 $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
             }
             if(!$checkResult) throw new Exception("Secret Key Not Valid", 500);
-            $query = $this->db->get_where("userinfo", array("telefon" => $gsm));
+            $query = $this->db->get_where(UYE_TABLO_ISMI, array("telefon" => $gsm));
             $result = $query->result();
             if(count($result) == 0){
                  throw new Exception($this->db->_error_message(), $this->db->_error_number());
             }
             return $result[0];
         } catch (Exception $e){
-            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: "İlgili kayıt bulunamadı.");
+            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: mb_convert_encoding("İlgili kayıt bulunamadı.", "HTML-ENTITIES", "UTF-8"));
         }
     }
 

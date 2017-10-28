@@ -22,99 +22,6 @@
                     "type": "-",
                     "name": "index",
                     "size": 186232
-                },
-                {
-                    "type": "-",
-                    "name": "COMMIT_EDITMSG",
-                    "size": 45
-                },
-                {
-                    "type": "d",
-                    "name": "logs",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "HEAD",
-                            "size": 2003
-                        },
-                        {
-                            "type": "d",
-                            "name": "refs",
-                            "size": 0,
-                            "files": [
-                                {
-                                    "type": "d",
-                                    "name": "heads",
-                                    "size": 0,
-                                    "files": [
-                                        {
-                                            "type": "-",
-                                            "name": "master",
-                                            "size": 2003
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "d",
-                                    "name": "remotes",
-                                    "size": 0,
-                                    "files": [
-                                        {
-                                            "type": "d",
-                                            "name": "origin",
-                                            "size": 0,
-                                            "files": [
-                                                {
-                                                    "type": "-",
-                                                    "name": "master",
-                                                    "size": 1292
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "refs",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "d",
-                            "name": "heads",
-                            "size": 0,
-                            "files": [
-                                {
-                                    "type": "-",
-                                    "name": "master",
-                                    "size": 41
-                                }
-                            ]
-                        },
-                        {
-                            "type": "d",
-                            "name": "remotes",
-                            "size": 0,
-                            "files": [
-                                {
-                                    "type": "d",
-                                    "name": "origin",
-                                    "size": 0,
-                                    "files": [
-                                        {
-                                            "type": "-",
-                                            "name": "master",
-                                            "size": 41
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
                 }
             ]
         },
@@ -152,37 +59,20 @@
                     "files": [
                         {
                             "type": "-",
-                            "name": "ExcelHandler_model.php",
-                            "size": 8231
+                            "name": "SMS_model.php",
+                            "size": 5143
                         }
                     ]
                 },
                 {
                     "type": "d",
-                    "name": "libraries",
+                    "name": "views",
                     "size": 0,
                     "files": [
                         {
                             "type": "-",
-                            "name": "PHPExcelHelper.php",
-                            "size": 10883
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "controllers",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "MainMenu.php",
-                            "size": 477
-                        },
-                        {
-                            "type": "-",
-                            "name": "ExcelHandler.php",
-                            "size": 817
+                            "name": "json_response.php",
+                            "size": 352
                         }
                     ]
                 }
@@ -212,7 +102,7 @@
         {
             "type": "-",
             "name": "error_log",
-            "size": 15030
+            "size": 15433
         },
         {
             "type": "-",

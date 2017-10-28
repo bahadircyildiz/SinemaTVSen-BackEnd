@@ -89,7 +89,6 @@ class ExcelHandler_model extends CI_Model{
         } catch (Exception $e) {
             $response = array('status' => $this->db->_error_number, 'message' => $e->getMessage());
         }
-        
         return $response;
     }
     
@@ -103,10 +102,6 @@ class ExcelHandler_model extends CI_Model{
             }
             $result = $query->result(); $ret = array();
             if ($result == null) throw new Exception($this->db->_error_message);
-            // foreach ($result as $r) {
-            //     if(!array_key_exists($r->uye_no, $ret)) $ret[$r->uye_no] = array();
-            //     array_push($ret[$r->uye_no], $r);
-            // }
             $response['content'] = $result;
         } catch (Exception $e) {
             $response = array('status' => $this->db->_error_number, 'message' => $e->getMessage());
@@ -125,7 +120,6 @@ class ExcelHandler_model extends CI_Model{
     function getDebtsTillToday($uye_no){
         $response = array();
         setlocale(LC_TIME, 'tr_TR.UTF-8');
-        // $year = $today['year'] ; $month = $today['mon'];
         try {
             $sql = $this->db
                     ->select('*')
@@ -135,13 +129,8 @@ class ExcelHandler_model extends CI_Model{
                     ->get();
             foreach ($sql->result() as $q) {
                 $aidat_tarihi = $this->ExcelHandler_model->stringDateParser($q->aidat_tarihi);
-                // $timeObj = strtotime($q->aidat_tarihi);
-                // $year = date('Y', $timeObj);
-                // $month = date('n', $timeObj);
                 $q->aidat_ayi = $aidat_tarihi['month'];
                 $q->aidat_yili = $aidat_tarihi['year'];
-                
-                // if(!array_key_exists($year, $result)) $result[$year] = array();
                 array_push($response, $q);
             }
         } catch (Exception $e) {
@@ -161,10 +150,9 @@ class ExcelHandler_model extends CI_Model{
         $this->load->library('PHPExcelHelper', $params);
         $this->load->dbforge();
         $obj = $this->phpexcelhelper->objectify();
-        // $this->ExcelHandler_model->add_alias_list($query);
         try {
             $this->db->empty_table(AIDAT_TABLO_ISMI);
-            $this->db->query("ALTER TABLE ".AIDAT_TABLO_ISMI." AUTO_INCREMENT 1");
+            // $this->db->query("ALTER TABLE ".AIDAT_TABLO_ISMI." AUTO_INCREMENT 1");
             foreach ($obj["content"] as $type => $content) {
                 foreach ($content as $tableName => $data) {
                     if($type == "aidat"){

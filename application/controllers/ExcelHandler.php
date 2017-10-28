@@ -27,7 +27,6 @@ class ExcelHandler extends CI_Controller{
         $this->index(array("data" => $data));
     }
 
-
 }
 
 
