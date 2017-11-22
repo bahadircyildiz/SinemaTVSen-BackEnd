@@ -1,8 +1,5 @@
 <?php
 
-// define ("AIDAT_TABLO_ISMI", 'aidat');
-// define ("UYE_TABLO_ISMI", 'uye_bilgileri');
-
 class SMS_model extends CI_Model{
     
     private $auth = array("key" => "authentication", "value" => array(
@@ -16,7 +13,11 @@ class SMS_model extends CI_Model{
     
     public $home = "http://websms.telsam.com.tr/xmlapi/";
     
-    private $ga;
+    private $sms_error_code_grid = array(
+        "AUTH_FAILED" => array( "code" => 500, "statusText" => "Hatalı kullanıcı adı veya şifre."),
+        "USER_DENIED" => array( "code" => 404, "statusText" => "Erişim engellendi."),
+        "XML_ERROR" => array( "code" => 404, "statusText" => "XML Post parametresi boş veya geçersiz."),
+    );
 
     function __construct(){
         $this->load->library('GoogleAuthenticator');
@@ -44,7 +45,7 @@ class SMS_model extends CI_Model{
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $this->home.$endpoint); 
-            curl_setopt($ch, CURLOPT_POST, 1); 
+            curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->convertParams($endpoint, $params));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             $response = curl_exec($ch);
@@ -53,13 +54,24 @@ class SMS_model extends CI_Model{
             }
             $response = new SimpleXMLElement($response);
         } catch (Exception $e) {
+            //Handling CURL errors
             $response = array("status"=>"ERROR", "error_code"=> $e->getCode(), "error_description"=>$e->getMessage());
         }
         return $response;
     }
     
     function sendSMS($params){
-        return $this->request("sendsms", $params);
+        try{
+            $result = $this->request("sendsms", $params);
+            if($result->error_code){
+                $error = $this->sms_error_code_grid[(string) $result->error_code];
+                throw new Exception($error["statusText"], $error["code"]);
+            }
+        } catch(Exception $e) {
+            //Handling SMS API errors
+            $this->output->set_status_header($e->getCode() , $this->toUTF8("SMS API: ".$e->getMessage()));
+            exit();
+        }
     }
     
     function convertParams($endpoint, $params){
@@ -79,31 +91,48 @@ class SMS_model extends CI_Model{
         }
     }
     
+    function toUTF8($text){
+        return mb_convert_encoding($text, "HTML-ENTITIES", "UTF-8");
+    }
+
+    function prepareMessageText($secret){
+        $text = "Değerli üyemiz, ".$secret." nolu cep şifresini giriş için kullanınız.";
+        return $text;
+    }
+
     function sendAuthKey($gsm){
         try {
             $query = $this->db->get_where(UYE_TABLO_ISMI, array("telefon" => $gsm));
             $result = $query->result(); 
             if(!$result){
-                $error = $this->db->error();
-                throw new Exception($error['message'], $error['code']);
-            }
-            if($result[0]->birim == "APPLE"){
-                $secret = 111111;
+                $queryForDev = $this->db->get_where(DEV_TABLO_ISMI, array("telefon" => $gsm));
+                $result = $queryForDev->result();
+                if(!$result){
+                    $error = $this->db->error();
+                    if($error["code"] == 0){
+                        $error = array( "message" => "İlgili kayıt bulunamadı.", "code" => 404);
+                    }
+                    throw new Exception($error['message'], $error['code']);
+                } else {
+                    $secret = $result[0]->secret;
+                    if($result[0]->sendSMS){
+                        $receivers = array($gsm);
+                        $params = array($this->auth, $this->setMessageParam($this->prepareMessageText($secret)), $this->setReceiversParam($receivers));
+                        $this->sendSMS($params);
+                    }
+                }
             } else {
                 $secret = $this->googleauthenticator->createSecret();
                 $oneCode = $this->googleauthenticator->getCode($secret);
                 $receivers = array($gsm);
-                $params = array($this->auth, $this->setMessageParam($oneCode), $this->setReceiversParam($receivers));
-                $result = $this->sendSMS($params);
-                if(array_key_exists('error_code', $result)){
-                    throw new Exception($result['error_description'], $result['error_code']);
-                }
+                $params = array($this->auth, $this->setMessageParam($this->prepareMessageText($oneCode)), $this->setReceiversParam($receivers));
+                $this->sendSMS($params);
             }
             $result = array("secret"=>$secret);
             return $result;
         } catch (Exception $e) {
-            $this->output->set_status_header($e->getCode()!= 0 ?: 404, 
-                                            $e->getMessage()!= "" ?: mb_convert_encoding("İlgili kayıt bulunamadı.", "HTML-ENTITIES", "UTF-8"));
+            $this->output->set_status_header($e->getCode(), $this->toUTF8( $e->getMessage() ));
+            exit();
         }
     }
 
@@ -112,20 +141,24 @@ class SMS_model extends CI_Model{
             if($secret == null){
                 throw new Exception('Secret Not Found');
             }
-            if($gsm == "1111111111" && $key == "111111"){
-                $checkResult = true;
-            } else {
-                $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
-            }
-            if(!$checkResult) throw new Exception("Secret Key Not Valid", 500);
             $query = $this->db->get_where(UYE_TABLO_ISMI, array("telefon" => $gsm));
             $result = $query->result();
-            if(count($result) == 0){
-                 throw new Exception($this->db->_error_message(), $this->db->_error_number());
-            }
+            if(!$result){
+                $query = $this->db->get_where(DEV_TABLO_ISMI, array("telefon" => $gsm));
+                $result = $query->result();
+                if(!$result){
+                    throw new Exception($this->db->_error_message(), $this->db->_error_number());
+                } else {
+                    if($secret == $result[0]->secret) $checkResult = true;
+                }
+            } else {
+                $checkResult = $this->googleauthenticator->verifyCode($secret, $key, 2);
+            } 
+            if(!$checkResult) throw new Exception("Yanlış Şifre", 500);
             return $result[0];
         } catch (Exception $e){
-            $this->output->set_status_header($e->getCode()!= 0 ?: 404, $e->getMessage()!= "" ?: mb_convert_encoding("İlgili kayıt bulunamadı.", "HTML-ENTITIES", "UTF-8"));
+            $this->output->set_status_header($e->getCode()!= 0 ?: 404, 
+                                                $this->toUTF8( $e->getMessage() != "" ?: "İlgili kayıt bulunamadı." ));
         }
     }
 

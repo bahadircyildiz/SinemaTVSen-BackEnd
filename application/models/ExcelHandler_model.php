@@ -3,6 +3,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 define ("AIDAT_TABLO_ISMI", 'aidat');
 define ("UYE_TABLO_ISMI", 'uye_bilgileri');
+define ("DEV_TABLO_ISMI", 'dev_bilgileri');
 
 class ExcelHandler_model extends CI_Model{
         public $month_grid =  array( 'Ocak', 

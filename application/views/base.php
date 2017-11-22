@@ -4,14 +4,10 @@
         <?php $this->load->view('meta'); ?>
     </head>
     <body>
-        <div id="wrapper">
-            <?php $this->load->view('header', array("title"=>$title)); ?>
-
-            <div id="content">
-                <?php echo $content; ?>
-            </div>
-
-            <?php $this->load->view('footer'); ?>
+        <?php $this->load->view('header', array("title"=>$title)); ?>
+        <div id="content">
+            <?php echo $content; ?>
         </div>
+        <?php $this->load->view('footer'); ?>
     </body>
 </html>

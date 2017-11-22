@@ -33,6 +33,18 @@ class PHPExcelHelper{
                                     'Ekim' => 10, 
                                     'Kasım' => 11, 
                                     'Aralık' => 12);
+    private $hardcodedUsers = array(
+        array(
+            "telefon" => "5058017933",
+            "adi" => "Bahadir",
+            "soyadi" => "Yildiz",
+            "birim" => "Gelistirici",
+        ),
+        array(
+            "telefon" => "1111111111",
+            "birim" => "APPLE"
+        )
+    );
     
     function __construct($ss){
         $this->slugger = new Slugify(['separator' => '_']);
@@ -142,6 +154,10 @@ class PHPExcelHelper{
                             break;
                     }
                 }
+                if($tableName == UYE_TABLO_ISMI){
+
+                }
+                
             }
         }
         return $this->response;

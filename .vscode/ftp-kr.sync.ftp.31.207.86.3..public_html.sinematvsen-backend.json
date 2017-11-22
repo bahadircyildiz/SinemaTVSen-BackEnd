@@ -17,11 +17,6 @@
                     "type": "-",
                     "name": "FETCH_HEAD",
                     "size": 0
-                },
-                {
-                    "type": "-",
-                    "name": "index",
-                    "size": 186232
                 }
             ]
         },
@@ -54,25 +49,47 @@
             "files": [
                 {
                     "type": "d",
-                    "name": "models",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "SMS_model.php",
-                            "size": 5143
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
                     "name": "views",
                     "size": 0,
                     "files": [
                         {
                             "type": "-",
-                            "name": "json_response.php",
-                            "size": 352
+                            "name": "footer.php",
+                            "size": 224
+                        },
+                        {
+                            "type": "-",
+                            "name": "options_view.php",
+                            "size": 1206
+                        },
+                        {
+                            "type": "-",
+                            "name": "app_settings_view.php",
+                            "size": 1339
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "models",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "Settings_model.php",
+                            "size": 1019
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "controllers",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "Settings.php",
+                            "size": 714
                         }
                     ]
                 }
@@ -102,7 +119,7 @@
         {
             "type": "-",
             "name": "error_log",
-            "size": 15433
+            "size": 15679
         },
         {
             "type": "-",
