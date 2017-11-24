@@ -19,7 +19,7 @@ class Settings extends MY_Controller {
     {
         $postData = $this->input->post();
         $result = $this->Settings_model->set_settings($postData);
-        $this->load->view("app_settings_view", array_merge($result, $postData));
+        $this->load->view("app_settings_view", $result);
     }
 
 }

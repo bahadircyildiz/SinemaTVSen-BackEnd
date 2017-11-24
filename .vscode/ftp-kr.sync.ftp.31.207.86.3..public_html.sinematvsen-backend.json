@@ -49,47 +49,13 @@
             "files": [
                 {
                     "type": "d",
-                    "name": "views",
+                    "name": "libraries",
                     "size": 0,
                     "files": [
                         {
                             "type": "-",
-                            "name": "footer.php",
-                            "size": 224
-                        },
-                        {
-                            "type": "-",
-                            "name": "options_view.php",
-                            "size": 1206
-                        },
-                        {
-                            "type": "-",
-                            "name": "app_settings_view.php",
-                            "size": 1339
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "models",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "Settings_model.php",
-                            "size": 1019
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "controllers",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "Settings.php",
-                            "size": 714
+                            "name": "PHPExcelHelper.php",
+                            "size": 8886
                         }
                     ]
                 }
@@ -119,7 +85,7 @@
         {
             "type": "-",
             "name": "error_log",
-            "size": 15679
+            "size": 16491
         },
         {
             "type": "-",

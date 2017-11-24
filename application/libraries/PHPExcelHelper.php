@@ -33,18 +33,6 @@ class PHPExcelHelper{
                                     'Ekim' => 10, 
                                     'Kasım' => 11, 
                                     'Aralık' => 12);
-    private $hardcodedUsers = array(
-        array(
-            "telefon" => "5058017933",
-            "adi" => "Bahadir",
-            "soyadi" => "Yildiz",
-            "birim" => "Gelistirici",
-        ),
-        array(
-            "telefon" => "1111111111",
-            "birim" => "APPLE"
-        )
-    );
     
     function __construct($ss){
         $this->slugger = new Slugify(['separator' => '_']);
@@ -121,7 +109,7 @@ class PHPExcelHelper{
         $colorLastColumn = COLOR_LAST_COLUMN;   
         $colorLastColumn++;
         for ($cnt = 0, $column = COLOR_FIRST_COLUMN; $column != $colorLastColumn; $column++, $cnt++) {
-            $color = $sheet->getStyle($column.'1')->getFill()->getStartColor()->getRGB();
+            $color = $sheet->getStyle($column.'1')->getFill()->getStartColor()->getARGB();
             $colorArray[$color] = $colors[$cnt];
         }
         return $colorArray;
@@ -169,12 +157,12 @@ class PHPExcelHelper{
         $RowData = $sheet->rangeToArray(USERID_COLUMN. $row . ':' . COLOR_LAST_COLUMN . $row, NULL, TRUE, FALSE)[0];
         if($RowData[0] != null) {
             for($cnt = 1, $column = COLOR_FIRST_COLUMN; $column <= COLOR_LAST_COLUMN; $column++, $cnt++){
-                $targetColor = $sheet->getStyle($column.$row)->getFill()->getStartColor()->getRGB();
+                $targetColor = $sheet->getStyle($column.$row)->getFill()->getStartColor()->getARGB();
                 $uye_no = $RowData[0];
                 $monthlyPayment = array( 'uye_no' => $uye_no, 
                                 'aidat_tarihi'=> $this->dateParser($cnt, $year),
                                 'odeme_tipi'=> $RowData[$cnt+2]);
-                if($targetColor == "000000"){
+                if($targetColor == "FF000000" && $monthlyPayment["odeme_tipi"] != null){
                     $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year); 
                 } else if(array_key_exists($targetColor, $colorArray)) {
                     $monthlyPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   

@@ -11,7 +11,7 @@ class Settings_model extends CI_Model{
                 if($error["code"] != 0) throw new Exception($error["message"], $error["code"]);
             }
             foreach ($result as $r) {
-                $data[$r->name] = $r->value;
+                $data[$r->name] = $this->cleanJson($r->value);
             }
             return $data;
         } catch(Excaption $e){
@@ -20,10 +20,16 @@ class Settings_model extends CI_Model{
         }
     }
 
+    function cleanJson($str){
+        $str = stripslashes($str);
+        $str = str_replace(array("\r\n","\n", "\r"), " ", $str);
+        return $str;
+    }
+
     function set_settings($params){
         try{
             $data = array();
-            foreach ($params as $name => $value) {
+            foreach ($params as $name => &$value) {
                 $temp = array("name"=>$name, "value"=>$value);
                 $data[] = $temp;
             }
@@ -32,7 +38,8 @@ class Settings_model extends CI_Model{
                 $error = $this->db->error();
                 if($error["code"] != 0) throw new Exception($error["message"], $error["code"]);
             }
-            return array( "save_result" => $result );
+            $settings = $this->get_settings();
+            return array_merge(array( "save_result" => $result ), $settings);
         } catch(Excaption $e){
             return array( "error_code" =>$e->getCode(), "error_message" => $e->getMessage());
         }
