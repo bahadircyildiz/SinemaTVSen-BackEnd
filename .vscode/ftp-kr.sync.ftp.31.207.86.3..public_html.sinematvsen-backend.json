@@ -12,13 +12,7 @@
             "type": "d",
             "name": ".git",
             "size": 4096,
-            "files": [
-                {
-                    "type": "-",
-                    "name": "FETCH_HEAD",
-                    "size": 0
-                }
-            ]
+            "files": []
         },
         {
             "type": "-",
@@ -46,20 +40,7 @@
             "type": "d",
             "name": "application",
             "size": 4096,
-            "files": [
-                {
-                    "type": "d",
-                    "name": "libraries",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "PHPExcelHelper.php",
-                            "size": 8886
-                        }
-                    ]
-                }
-            ]
+            "files": []
         },
         {
             "type": "d",

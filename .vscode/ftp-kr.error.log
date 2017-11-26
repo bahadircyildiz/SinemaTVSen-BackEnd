@@ -1,0 +1,15 @@
+[Error]
+message: ENOENT: no such file or directory, stat '/home/jaded/Documents/SinemaTVSen-BackEnd/.git/index.lock'
+code: ENOENT
+errno: -2
+[Stack Trace]
+ENOENT: no such file or directory, stat '/home/jaded/Documents/SinemaTVSen-BackEnd/.git/index.lock'
+	at Object.stat (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/util/fs.js:46:17)
+	at FtpFileSystem.<anonymous> (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ftpsync.js:143:34)
+	at Generator.next (<anonymous>)
+	at /home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ftpsync.js:7:71
+	at Promise (<anonymous>)
+	at __awaiter (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ftpsync.js:3:12)
+	at FtpFileSystem.ftpUpload (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ftpsync.js:137:16)
+	at upload (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ftpsync.js:482:16)
+	at TaskImpl.work.ftp.task.task (/home/jaded/.vscode/extensions/ruakr.ftp-kr-1.1.7/out/ex/ftpsync.js:65:61)
