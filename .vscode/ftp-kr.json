@@ -14,8 +14,10 @@
     "autoUpload": true,
     "autoDelete": true,
     "ignore": [
-        "\\.vscode",
-        "\\.git",
-        "\\.DS_Store"
+        "/.vscode/ftp-kr.task.json",
+		"/.vscode/ftp-kr.error.log",
+		"/.vscode/ftp-kr.sync.*.json",
+        "/.git",
+        "/.DS_Store"
     ]
 }

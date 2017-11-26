@@ -1,5 +1,5 @@
 <div class="container">
-    <? echo form_open("Settings/set_settings");?>
+    <? echo form_open("MainMenu/AppSettings");?>
         <div class="form-group">
             <label for="slideElements">Slide Elements Query Selector</label>
             <textarea class="form-control" name="slideElements" id="slideElements"><?= $slideElements ?></textarea>

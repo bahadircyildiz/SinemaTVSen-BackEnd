@@ -12,7 +12,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Ana Sayfa</a></li>
-                <li><a href="/Settings">Mobil App Ayarları</a></li>
+                <li><a href="/MainMenu/AppSettings">Mobil App Ayarları</a></li>
             </ul>
         </div>
     </div>
