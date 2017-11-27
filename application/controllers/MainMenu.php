@@ -9,10 +9,10 @@ class MainMenu extends MY_Controller {
 
     function index()
     {
-        $this->parse_excel();
+        $this->ParseExcel();
     }
 
-    function parse_excel()
+    function ParseExcel()
     {
         $this->title = "Excel Okuma Sistemi";
         if($_FILES){

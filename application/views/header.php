@@ -7,11 +7,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Sinema TV Sen Backend</a>
+            <a class="navbar-brand" href="/MainMenu">Sinema TV Sen Backend</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Ana Sayfa</a></li>
+                <li class="active"><a href="/MainMenu/ParseExcel">Excel Okuma Sistemi</a></li>
                 <li><a href="/MainMenu/AppSettings">Mobil App Ayarları</a></li>
             </ul>
         </div>

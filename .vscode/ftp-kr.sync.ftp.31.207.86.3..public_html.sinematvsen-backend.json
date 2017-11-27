@@ -12,7 +12,149 @@
             "type": "d",
             "name": ".git",
             "size": 4096,
-            "files": []
+            "files": [
+                {
+                    "type": "-",
+                    "name": "COMMIT_EDITMSG",
+                    "size": 40
+                },
+                {
+                    "type": "-",
+                    "name": "FETCH_HEAD",
+                    "size": 115
+                },
+                {
+                    "type": "-",
+                    "name": "HEAD",
+                    "size": 23
+                },
+                {
+                    "type": "-",
+                    "name": "config",
+                    "size": 347
+                },
+                {
+                    "type": "-",
+                    "name": "description",
+                    "size": 73
+                },
+                {
+                    "type": "d",
+                    "name": "hooks",
+                    "size": 4096,
+                    "files": []
+                },
+                {
+                    "type": "-",
+                    "name": "index",
+                    "size": 186649
+                },
+                {
+                    "type": "d",
+                    "name": "info",
+                    "size": 4096,
+                    "files": []
+                },
+                {
+                    "type": "d",
+                    "name": "logs",
+                    "size": 4096,
+                    "files": [
+                        {
+                            "type": "d",
+                            "name": "refs",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "d",
+                                    "name": "heads",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "-",
+                                            "name": "master",
+                                            "size": 406
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "d",
+                                    "name": "remotes",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "d",
+                                            "name": "origin",
+                                            "size": 0,
+                                            "files": [
+                                                {
+                                                    "type": "-",
+                                                    "name": "master",
+                                                    "size": 161
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "-",
+                            "name": "HEAD",
+                            "size": 406
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "objects",
+                    "size": 4096,
+                    "files": []
+                },
+                {
+                    "type": "-",
+                    "name": "packed-refs",
+                    "size": 107
+                },
+                {
+                    "type": "d",
+                    "name": "refs",
+                    "size": 4096,
+                    "files": [
+                        {
+                            "type": "d",
+                            "name": "heads",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "-",
+                                    "name": "master",
+                                    "size": 41
+                                }
+                            ]
+                        },
+                        {
+                            "type": "d",
+                            "name": "remotes",
+                            "size": 0,
+                            "files": [
+                                {
+                                    "type": "d",
+                                    "name": "origin",
+                                    "size": 0,
+                                    "files": [
+                                        {
+                                            "type": "-",
+                                            "name": "master",
+                                            "size": 41
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "type": "-",
@@ -28,7 +170,18 @@
             "type": "d",
             "name": ".vscode",
             "size": 4096,
-            "files": []
+            "files": [
+                {
+                    "type": "-",
+                    "name": "ftp-kr.error.log",
+                    "size": 960
+                },
+                {
+                    "type": "-",
+                    "name": "ftp-kr.json",
+                    "size": 457
+                }
+            ]
         },
         {
             "type": "d",
@@ -40,7 +193,49 @@
             "type": "d",
             "name": "application",
             "size": 4096,
-            "files": []
+            "files": [
+                {
+                    "type": "d",
+                    "name": "controllers",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "MainMenu.php",
+                            "size": 1075
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "views",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "header.php",
+                            "size": 908
+                        },
+                        {
+                            "type": "-",
+                            "name": "app_settings_view.php",
+                            "size": 1710
+                        }
+                    ]
+                },
+                {
+                    "type": "d",
+                    "name": "config",
+                    "size": 0,
+                    "files": [
+                        {
+                            "type": "-",
+                            "name": "config.php",
+                            "size": 18692
+                        }
+                    ]
+                }
+            ]
         },
         {
             "type": "d",
