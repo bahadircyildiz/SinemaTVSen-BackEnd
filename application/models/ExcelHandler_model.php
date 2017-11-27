@@ -153,7 +153,7 @@ class ExcelHandler_model extends CI_Model{
         $obj = $this->phpexcelhelper->objectify();
         try {
             $this->db->empty_table(AIDAT_TABLO_ISMI);
-            // $this->db->query("ALTER TABLE ".AIDAT_TABLO_ISMI." AUTO_INCREMENT 1");
+            $this->db->query("ALTER TABLE ".AIDAT_TABLO_ISMI." AUTO_INCREMENT 1");
             foreach ($obj["content"] as $type => $content) {
                 foreach ($content as $tableName => $data) {
                     if($type == "aidat"){
