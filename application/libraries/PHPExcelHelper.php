@@ -163,13 +163,15 @@ class PHPExcelHelper{
                 $uye_no = $RowData[0];
                 $monthlyPayment = array( 'uye_no' => $uye_no, 
                                 'aidat_tarihi'=> $this->dateParser($cnt, $year),
-                                'odeme_tipi'=> $RowData[$cnt+2],
-                                'color' => $targetColor);
+                                'odeme_tipi'=> $RowData[$cnt+2]);
                 if($targetColorFillType == PHPExcel_Style_Fill::FILL_NONE || $targetColor == "FFFFFF"){
                     $monthlyPayment['odendigi_tarih'] = null; 
                 } else if(array_key_exists($targetColor, $colorArray)) {
                     $monthlyPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
-                } else{
+                } else if(!array_key_exists($targetColor, $colorArray) && $targetColor != "000000"){
+                    $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year);
+                    $monthlyPayment['odeme_tipi'] = $monthlyPayment['odeme_tipi']."(HATALI)"; 
+                } else {
                     $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year);
                 }
                 $paymentArray[] = $monthlyPayment;

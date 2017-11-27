@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Parse Excel</h2>
-    <?php echo form_open_multipart('MainMenu/parse_excel');?>
+    <?php echo form_open_multipart('MainMenu/ParseExcel');?>
     <div class="form-group">
         <label for="spreadsheet">Load Excel</label>
         <input type="file" class="form-control-file" name="spreadsheet" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
