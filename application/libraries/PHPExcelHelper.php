@@ -109,7 +109,7 @@ class PHPExcelHelper{
         $colorLastColumn = COLOR_LAST_COLUMN;   
         $colorLastColumn++;
         for ($cnt = 0, $column = COLOR_FIRST_COLUMN; $column != $colorLastColumn; $column++, $cnt++) {
-            $color = $sheet->getStyle($column.'1')->getFill()->getStartColor()->getARGB();
+            $color = $sheet->getStyle($column.'1')->getFill()->getStartColor()->getRGB();
             $colorArray[$color] = $colors[$cnt];
         }
         return $colorArray;
@@ -157,17 +157,20 @@ class PHPExcelHelper{
         $RowData = $sheet->rangeToArray(USERID_COLUMN. $row . ':' . COLOR_LAST_COLUMN . $row, NULL, TRUE, FALSE)[0];
         if($RowData[0] != null) {
             for($cnt = 1, $column = COLOR_FIRST_COLUMN; $column <= COLOR_LAST_COLUMN; $column++, $cnt++){
-                $targetColor = $sheet->getStyle($column.$row)->getFill()->getStartColor()->getARGB();
+                $targetFill = $sheet->getStyle($column.$row)->getFill();
+                $targetColorFillType = $targetFill->getFillType();
+                $targetColor = $targetFill->getStartColor()->getRGB();
                 $uye_no = $RowData[0];
                 $monthlyPayment = array( 'uye_no' => $uye_no, 
                                 'aidat_tarihi'=> $this->dateParser($cnt, $year),
-                                'odeme_tipi'=> $RowData[$cnt+2]);
-                if($targetColor == "FF000000" && $monthlyPayment["odeme_tipi"] != null){
-                    $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year); 
+                                'odeme_tipi'=> $RowData[$cnt+2],
+                                'color' => $targetColor);
+                if($targetColorFillType == PHPExcel_Style_Fill::FILL_NONE || $targetColor == "FFFFFF"){
+                    $monthlyPayment['odendigi_tarih'] = null; 
                 } else if(array_key_exists($targetColor, $colorArray)) {
                     $monthlyPayment['odendigi_tarih'] = $this->dateParser($month_grid[$colorArray[$targetColor]], $year);   
                 } else{
-                    $monthlyPayment['odendigi_tarih'] = null;
+                    $monthlyPayment['odendigi_tarih'] = $this->dateParser($cnt, $year);
                 }
                 $paymentArray[] = $monthlyPayment;
             };  
