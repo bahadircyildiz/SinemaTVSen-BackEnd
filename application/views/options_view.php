@@ -1,8 +1,8 @@
 <div class="container">
-    <h2>Parse Excel</h2>
+    <h2>Excel Okuma Sistemi</h2>
     <?php echo form_open_multipart('MainMenu/ParseExcel');?>
     <div class="form-group">
-        <label for="spreadsheet">Load Excel</label>
+        <label for="spreadsheet">Excel Yükle</label>
         <input type="file" class="form-control-file" name="spreadsheet" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
     </div>
     <button type="submit" class="btn btn-default">Gönder</button>

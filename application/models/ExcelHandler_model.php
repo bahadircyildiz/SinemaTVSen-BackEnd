@@ -192,7 +192,25 @@ class ExcelHandler_model extends CI_Model{
 
                 }
             }
-            $response = $obj["content"];
+            $errors = $this->db->get_where(AIDAT_TABLO_ISMI, array("renk_hatasi" => 1));
+            $errors = $errors->result();
+            foreach ($errors as &$err) {
+                $err = (array) $err;
+                $aidat_tarihi = $this->stringDateParser($err['aidat_tarihi']);
+                unset($err['aidat_tarihi']);
+                $err['Aidat Yili'] = $aidat_tarihi['year'];
+                $err["Uye No"] = $err["uye_no"];
+                unset($err['uye_no']);
+                $err['Aidat Ayi'] = $aidat_tarihi['month'];
+                $odendigi_tarih = $this->stringDateParser($err['odendigi_tarih']);
+                unset($err['odendigi_tarih']);
+                $err['Odendigi Ay'] = $odendigi_tarih['month'];
+                unset($err['renk_hatasi']);
+                unset($err['id']);
+                $err["Odeme Tipi"] = $err ["odeme_tipi"];
+                unset($err["odeme_tipi"]);
+            }
+            $response = array( "content" => array("Hatalar" => $errors));
         } 
         catch (Exception $e ) {
             $response = $e->getMessage();
