@@ -103,5 +103,6 @@ define ("COLOR_FIRST_COLUMN", 'D');
 define ("COLOR_LAST_COLUMN", 'O');
 //UserModel Constants
 define ("SIKAYET_MAILI", 'sikayet@sinematvsendikasi.org');
-define ("INFO_MAILI", 'info@sinematvsendikasi.org');
+define ("INFO_MAILI", 'info@sinematvsendikasi.orgs');
 define ("SIKAYET_MAIL_ADI", "Sinema TV Sendikası Şikayet");
+define ("STVSEN_ADRES", "Halaskargazi Cad. Bared Apt. No:167/4 Şişli / İstanbul");
