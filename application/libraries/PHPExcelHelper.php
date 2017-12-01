@@ -1,12 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 use Cocur\Slugify\Slugify;
-
-define ("USERID_COLUMN", 'A');
-define ("COLOR_FIRST_COLUMN", 'D');
-define ("COLOR_LAST_COLUMN", 'O');
-define ("UYE_TABLO_ISMI", "uye_bilgileri");
-
 class PHPExcelHelper{
     
     private $objPHPExcel;

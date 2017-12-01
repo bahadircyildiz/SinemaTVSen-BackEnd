@@ -43,71 +43,13 @@
             "files": [
                 {
                     "type": "d",
-                    "name": "config",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "config.php",
-                            "size": 18692
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "controllers",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "MainMenu.php",
-                            "size": 1075
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "libraries",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "PHPExcelHelper.php",
-                            "size": 8829
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
                     "name": "models",
                     "size": 0,
                     "files": [
                         {
                             "type": "-",
-                            "name": "ExcelHandler_model.php",
-                            "size": 7871
-                        }
-                    ]
-                },
-                {
-                    "type": "d",
-                    "name": "views",
-                    "size": 0,
-                    "files": [
-                        {
-                            "type": "-",
-                            "name": "footer.php",
-                            "size": 0
-                        },
-                        {
-                            "type": "-",
-                            "name": "header.php",
-                            "size": 908
-                        },
-                        {
-                            "type": "-",
-                            "name": "options_view.php",
-                            "size": 1205
+                            "name": "User_model.php",
+                            "size": 992
                         }
                     ]
                 }
@@ -137,7 +79,7 @@
         {
             "type": "-",
             "name": "error_log",
-            "size": 16912
+            "size": 18110
         },
         {
             "type": "-",
@@ -151,6 +93,11 @@
         },
         {
             "type": "-",
+            "name": "npm-debug.log.1778750648",
+            "size": 0
+        },
+        {
+            "type": "-",
             "name": "readme.rst",
             "size": 2423
         },
@@ -159,11 +106,6 @@
             "name": "system",
             "size": 4096,
             "files": []
-        },
-        {
-            "type": "-",
-            "name": "npm-debug.log.1778750648",
-            "size": 0
         }
     ]
 }
